@@ -1,8 +1,11 @@
 const express = require("express");
 const app = express();
 let port = 5000;
+app.set("view engine", "ejs");
+app.set("views", "./public");
+app.use(express.static("./public"));
 app.get("/", (req, res) => {
-  return res.send("hi");
+  return res.render("index");
 });
 
 app.listen(port, (err) => {
