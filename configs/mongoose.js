@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
-mongoose.connect(
-  "mongodb+srv://shubham:2424554@cluster0.w9vzk.mongodb.net/node_auth?retryWrites=true&w=majority"
-);
+// connecting to mongodb db
+mongoose.connect("<connectionString>");
+// acquire the connection to db
 const db = mongoose.connection;
+// registering handlers on the connnection
 db.on(
   "error",
   console.error.bind(console, "connection error :cannot connect to the db")

@@ -1,15 +1,24 @@
+// connect to the socket.io server
 const socket = io("http://localhost:3000");
-socket.on("greetings", (data) => {
-  console.log(data, "fdgdfgdg");
+socket.on("connect", function (socket) {
+  console.log("successfully Connected to the server!");
 });
-socket.on("send-data-to-frontend", (data) => {
-  console.log("data recieved from server xx ", data);
-  updateTable(data);
+socket.on("connect_failed", function () {
+  console.log("Sorry, there seems to be an issue with the connection!");
 });
+socket.on("disconnect", function (socket) {
+  console.log("disconnected from the server!");
+});
+socket.on(
+  "send-data-to-frontend",
+  ({ arrayOfValidatedObjects: arr, timeOfRecievingData }) => {
+    timeOfRecievingData = new Date(timeOfRecievingData).toLocaleString();
+    updateTable(arr, timeOfRecievingData);
+  }
+);
 
-// handles the array
-function updateTable(arr) {
-  console.log("inside update table");
+// updates Dom by adding rows to table using data recieved over web sockets
+function updateTable(arr, timeOfRecievingData) {
   const tableBody = document.querySelector("tbody");
   let domTableRowString = arr
     .map(({ name, origin, destination }) => {
@@ -17,10 +26,9 @@ function updateTable(arr) {
       <td>${name}</td>
       <td>${origin}</td>
       <td>${destination}</td>
-      <td>${name}</td>
+      <td>${timeOfRecievingData.toString()}</td>
     </tr>`;
     })
     .join(" ");
-  console.log(domTableRowString);
   tableBody.innerHTML += domTableRowString;
 }
