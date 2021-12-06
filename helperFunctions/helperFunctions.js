@@ -65,3 +65,10 @@ let decryptData = (encryptedText, initVector, securityKey) => {
   //   console.log("Decrypted message: " + decryptedData);
   return JSON.parse(decryptedData);
 };
+module.exports = {
+  createHash,
+  encryptData,
+  decryptData,
+  createArrayOfObjects,
+  generateArrayOfHashedAndEncryptedObjectsFromInputArray,
+};
